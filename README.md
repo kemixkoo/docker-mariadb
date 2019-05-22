@@ -46,7 +46,10 @@ Variable_name	 | Value
 
 
 ```
-docker run --name my-mariadb -e MYSQL_ROOT_PASSWORD=my-secret -d kemixkoo/mariadb
+docker run --name my-mariadb \
+    -e MYSQL_ROOT_PASSWORD=my-secret \
+    -p 3306:3306 \
+    -d kemixkoo/mariadb
 ```
 
 
@@ -56,6 +59,7 @@ docker run --name my-mariadb -e MYSQL_ROOT_PASSWORD=my-secret -d kemixkoo/mariad
 docker run --name my-mariadb \
     -v /my/data/path:/var/lib/mysql \
     -e MYSQL_ROOT_PASSWORD=my-secret \
+    -p 3306:3306 \
     -d kemixkoo/mariadb
 ```
 
@@ -68,6 +72,7 @@ docker run --name my-mariadb \
     -e MYSQL_DATABASE=sample \
     -e MYSQL_USER=my-user \
     -e MYSQL_PASSWORD=my-password \
+    -p 3306:3306 \
     -d kemixkoo/mariadb
 ```
 
@@ -88,6 +93,8 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - ~/mariadb:/var/lib/mysql
+    ports:
+      - 3306:3306
 
   adminer:
     image: adminer
@@ -96,7 +103,7 @@ services:
       - 18080:8080
 ```
 
-The DB data directory is in `~/mariadb` for volume.
+The DB data directory is in `~/mariadb` for volume. 
 
 Then, can access the adminer: http://localhost:18080
 
@@ -129,6 +136,8 @@ services:
     volumes:
       - ~/mariadb:/var/lib/mysql
       - ./conf:/etc/mysql/conf.d
+    ports:
+      - 3306:3306
 
   adminer:
     image: adminer
